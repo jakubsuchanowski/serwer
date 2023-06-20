@@ -3,6 +3,7 @@ package com.js.restservice.controllers;
 import com.js.restservice.model.Laptop;
 import com.js.restservice.services.LaptopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,17 +30,23 @@ public class LaptopController {
     }
 
     @PostMapping("/addNewRecord")
-    public Laptop addNewRecord(@RequestBody Laptop laptop){
-        return laptopService.addNewLaptopInfo(laptop);
+    public ResponseEntity<?> addNewRecord(@RequestBody Laptop laptop){
+        laptopService.addNewLaptopInfo(laptop);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/allRecord")
+    public ResponseEntity<List<Laptop>> getAll(){
+        return ResponseEntity.ok().body(laptopService.showAllLaptops());
     }
 
     @DeleteMapping("/deleteRecord/{id}")
     public void deleteLaptop(@PathVariable("id") Long id){
         laptopService.deleteLaptop(id);
     }
-    @PutMapping("updateRecord/{id}")
+    @PutMapping("/updateRecord/{id}")
     public void updateLaptop(@PathVariable("id") Long id, @RequestBody Laptop laptop){
-
+        laptopService.updateLaptop(id, laptop);
     }
 
 }

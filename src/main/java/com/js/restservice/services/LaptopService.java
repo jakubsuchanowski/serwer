@@ -51,12 +51,42 @@ public class LaptopService {
         return count;
     }
 
-    public Laptop addNewLaptopInfo(Laptop laptop){
-        return laptopRepository.save(laptop);
+    public List<Laptop> showAllLaptops(){
+        return (List<Laptop>) laptopRepository.findAll();
+    }
+    public void addNewLaptopInfo(Laptop laptop){
+        Laptop newLaptop = new Laptop (0L, laptop.getNazwaProducenta(), laptop.getPrzekatnaEkranu(),
+                laptop.getRozdzielczosc(), laptop.getRodzajEkranu(), laptop.getCzyDotykowy(),
+                laptop.getNazwaProcesora(), laptop.getLiczbaRdzeni(), laptop.getTaktowanie(),
+                laptop.getPamiecRam(), laptop.getPojemnoscDysku(), laptop.getRodzajDysku(),
+                laptop.getNazwaUg(), laptop.getPamiecUg(), laptop.getNazwaSo(), laptop.getRodzajNapedu());
+        laptopRepository.save(newLaptop);
     }
 
     public void deleteLaptop(Long id){
         Optional<Laptop> laptopFromDb = laptopRepository.findById(id);
         laptopRepository.delete(laptopFromDb.get());
+    }
+
+    public void updateLaptop(Long id, Laptop laptop){
+        Optional<Laptop> laptopFromDb = laptopRepository.findById(id);
+        if(laptopFromDb.isPresent()){
+            laptopFromDb.get().setNazwaProducenta(laptop.getNazwaProducenta());
+            laptopFromDb.get().setPrzekatnaEkranu(laptop.getPrzekatnaEkranu());
+            laptopFromDb.get().setRozdzielczosc(laptop.getRozdzielczosc());
+            laptopFromDb.get().setRodzajEkranu(laptop.getRodzajEkranu());
+            laptopFromDb.get().setCzyDotykowy(laptop.getCzyDotykowy());
+            laptopFromDb.get().setNazwaProcesora(laptop.getNazwaProcesora());
+            laptopFromDb.get().setLiczbaRdzeni(laptop.getLiczbaRdzeni());
+            laptopFromDb.get().setTaktowanie(laptop.getTaktowanie());
+            laptopFromDb.get().setPamiecRam(laptop.getPamiecRam());
+            laptopFromDb.get().setPojemnoscDysku(laptop.getPojemnoscDysku());
+            laptopFromDb.get().setRodzajDysku(laptop.getRodzajDysku());
+            laptopFromDb.get().setNazwaUg(laptop.getNazwaUg());
+            laptopFromDb.get().setPamiecUg(laptop.getPamiecUg());
+            laptopFromDb.get().setNazwaSo(laptop.getNazwaSo());
+            laptopFromDb.get().setRodzajNapedu(laptop.getRodzajNapedu());
+            laptopRepository.save(laptopFromDb.get());
+        }
     }
 }
