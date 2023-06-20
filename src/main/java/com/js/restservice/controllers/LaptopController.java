@@ -15,18 +15,18 @@ public class LaptopController {
     private LaptopService laptopService;
 
     @GetMapping("/filterLaptopsByManufacturer")
-    public int filterLaptopsByManufacturer(@RequestParam("manufacturer") String manufacturer){
-        return laptopService.getNumberOfLaptopsFilteredByManufacturer(manufacturer);
+    public ResponseEntity<?> filterLaptopsByManufacturer(@RequestParam("manufacturer") String manufacturer){
+        return ResponseEntity.ok().body(laptopService.getNumberOfLaptopsFilteredByManufacturer(manufacturer));
     }
 
     @GetMapping("/filterLaptopsByScreenResolution")
-    public int filterLaptopsByScreenResolution(@RequestParam("screenResolution") String screenResolution){
-        return laptopService.getNumberOfLaptopsByScreenResolution(screenResolution);
+    public ResponseEntity<?> filterLaptopsByScreenResolution(@RequestParam("screenResolution") String screenResolution){
+        return ResponseEntity.ok().body(laptopService.getNumberOfLaptopsByScreenResolution(screenResolution));
     }
 
     @GetMapping("/filterLaptopsByMatrixType")
-    public List<Laptop> filterLaptopsByMatrixType(@RequestParam String matrixType){
-        return laptopService.getLaptopsFilteredByMatrixType(matrixType);
+    public ResponseEntity<List<Laptop>> filterLaptopsByMatrixType(@RequestParam String matrixType){
+        return ResponseEntity.ok().body(laptopService.getLaptopsFilteredByMatrixType(matrixType));
     }
 
     @PostMapping("/addNewRecord")
@@ -41,12 +41,14 @@ public class LaptopController {
     }
 
     @DeleteMapping("/deleteRecord/{id}")
-    public void deleteLaptop(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteLaptop(@PathVariable("id") Long id){
         laptopService.deleteLaptop(id);
+        return ResponseEntity.ok().build();
     }
     @PutMapping("/updateRecord/{id}")
-    public void updateLaptop(@PathVariable("id") Long id, @RequestBody Laptop laptop){
+    public ResponseEntity<?> updateLaptop(@PathVariable("id") Long id, @RequestBody Laptop laptop){
         laptopService.updateLaptop(id, laptop);
+        return ResponseEntity.ok().build();
     }
 
 }
